@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Priyesh Rupavatia — Game Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f5f3ee;
+    --ink: #1a1814;
+    --ink2: #4a4640;
+    --ink3: #8a8480;
+    --c1: #ff5c35;
+    --c2: #3b82f6;
+    --c3: #22c55e;
+    --c4: #f59e0b;
+    --c5: #a855f7;
+    --card: #ffffff;
+    --border: rgba(26,24,20,0.09);
+    --r: 16px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 64px;
+    background: rgba(245,243,238,0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem;
+    letter-spacing: -0.02em; color: var(--ink); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--c1); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px; border-radius: 999px;
+    font-size: 0.875rem; font-weight: 500; text-decoration: none;
+    transition: transform 0.18s, box-shadow 0.18s; cursor: pointer; border: none;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--ink); color: #fff; }
+  .btn-primary:hover { box-shadow: 0 8px 24px rgba(26,24,20,0.2); }
+  .btn-outline { background: var(--card); color: var(--ink); border: 1.5px solid var(--border); }
+  .btn-outline:hover { box-shadow: 0 6px 18px rgba(26,24,20,0.08); }
+  section { padding: 100px 5vw; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.13em;
+    text-transform: uppercase; color: var(--ink3); margin-bottom: 1rem;
+  }
+  .section-label::before {
+    content: ''; width: 20px; height: 2px; background: var(--c1); border-radius: 2px;
+  }
+  /* HERO */
+  #hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; padding-top: 80px; position: relative;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 14px;
+    font-size: 0.8rem; font-weight: 500; color: var(--ink2);
+    margin-bottom: 2rem; width: fit-content;
+    animation: fadeUp 0.6s ease both;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c3); animation: blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.35} }
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3.2rem, 9vw, 8rem);
+    font-weight: 800; line-height: 0.93; letter-spacing: -0.03em;
+    margin-bottom: 0.15em; animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero-name em { font-style: normal; color: var(--c1); }
+  .hero-sub {
+    font-size: clamp(1rem, 2.2vw, 1.25rem); color: var(--ink2); font-weight: 300;
+    max-width: 500px; margin: 1.5rem 0 2.5rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+  .hero-deco {
+    position: absolute; right: 5vw; top: 50%; transform: translateY(-50%);
+    width: clamp(200px, 26vw, 380px); aspect-ratio: 1; pointer-events: none;
+    animation: fadeUp 0.9s 0.4s ease both;
+  }
+  /* ABOUT */
+  #about { background: var(--card); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; max-width: 1100px; }
+  .about-text p { color: var(--ink2); margin-bottom: 1rem; font-size: 1.02rem; }
+  .contact-list { list-style: none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .contact-list li { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--ink2); }
+  .ci { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .stat-card { background: var(--bg); border-radius: var(--r); padding: 1.25rem 1.5rem; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 0.8rem; color: var(--ink3); font-weight: 500; }
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+  .skill-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .skill-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,24,20,0.07); }
+  .skill-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 1rem; }
+  .skill-card h3 { font-family: 'Syne', sans-serif; font-size: 0.92rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 0.72rem; font-weight: 500; padding: 4px 10px; border-radius: 999px; background: var(--bg); color: var(--ink2); border: 1px solid var(--border); }
+  /* EXPERIENCE */
+  #experience { background: var(--card); }
+  .exp-list { margin-top: 2.5rem; }
+  .exp-item { display: grid; grid-template-columns: 170px 1fr; gap: 2rem; padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-date { font-size: 0.8rem; color: var(--ink3); font-weight: 500; padding-top: 4px; line-height: 1.6; }
+  .exp-role { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 3px; }
+  .exp-co { font-size: 0.82rem; color: var(--ink3); font-weight: 500; margin-bottom: 0.75rem; }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .exp-bullets li { font-size: 0.88rem; color: var(--ink2); display: flex; gap: 8px; align-items: flex-start; }
+  .exp-bullets li::before { content: '→'; color: var(--c1); font-size: 0.72rem; margin-top: 5px; flex-shrink: 0; }
+  /* GAMES */
+  .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+  .game-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--r);
+    overflow: hidden; text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    transition: transform 0.22s, box-shadow 0.22s;
+  }
+  .game-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(26,24,20,0.1); }
+  .game-thumb {
+    height: 155px; display: flex; align-items: center; justify-content: center;
+    font-size: 3.2rem; position: relative; overflow: hidden;
+  }
+  .play-hint {
+    position: absolute; bottom: 0; right: 0;
+    background: rgba(26,24,20,0.6); color: #fff;
+    font-size: 0.72rem; font-weight: 600; padding: 5px 12px;
+    border-top-left-radius: 10px; opacity: 0; transition: opacity 0.2s;
+  }
+  .game-card:hover .play-hint { opacity: 1; }
+  .game-info { padding: 1.2rem; flex: 1; }
+  .game-info h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.98rem; margin-bottom: 0.3rem; }
+  .game-info p { font-size: 0.83rem; color: var(--ink2); line-height: 1.5; }
+  .game-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; padding: 4px 10px; border-radius: 999px; margin-top: 0.75rem; }
+  /* PROJECTS */
+  #projects { background: var(--card); }
+  .proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+  .proj-card { background: var(--bg); border-radius: var(--r); padding: 1.5rem; border: 1px solid var(--border); transition: transform 0.2s; }
+  .proj-card:hover { transform: translateY(-3px); }
+  .proj-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.93rem; margin-bottom: 0.35rem; }
+  .proj-card p { font-size: 0.83rem; color: var(--ink2); }
+  .proj-bar { width: 28px; height: 3px; border-radius: 2px; margin-bottom: 1rem; }
+  /* FOOTER */
+  footer { padding: 3rem 5vw; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; }
+  .footer-copy { font-size: 0.78rem; color: var(--ink3); }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  .fi { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fi.vis { opacity: 1; transform: translateY(0); }
+  @media (max-width: 768px) {
+    .hero-deco { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.2rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">Priyesh R.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#games">Games</a></li>
+    <li><a href="#projects">Projects</a></li>
+  </ul>
+  <a href="mailto:priyeshrupavatia960@gmail.com" class="btn btn-primary" style="padding:9px 18px;font-size:0.82rem;">Hire me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-tag"><span class="dot"></span> Available for work</div>
+  <h1 class="hero-name">Priyesh<br><em>Rupavatia</em></h1>
+  <p class="hero-sub">Senior Unity Game Developer building 3D mobile games — open worlds, simulators, FPS & hyper-casual.</p>
+  <div class="hero-ctas">
+    <a href="#games" class="btn btn-primary">Play my games ↓</a>
+    <a href="#experience" class="btn btn-outline">Experience</a>
+    <a href="mailto:priyeshrupavatia960@gmail.com" class="btn btn-outline">Contact</a>
+  </div>
+
+  <svg class="hero-deco" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="200" r="178" fill="white" stroke="#e5e2d9" stroke-width="1"/>
+    <!-- controller body -->
+    <rect x="115" y="152" width="170" height="96" rx="48" fill="#ff5c35" opacity="0.1"/>
+    <rect x="115" y="152" width="170" height="96" rx="48" stroke="#ff5c35" stroke-width="1.8"/>
+    <!-- left stick -->
+    <circle cx="158" cy="212" r="20" fill="#3b82f6" opacity="0.12"/>
+    <circle cx="158" cy="212" r="20" stroke="#3b82f6" stroke-width="1.5"/>
+    <circle cx="158" cy="212" r="7" fill="#3b82f6" opacity="0.45"/>
+    <!-- right stick -->
+    <circle cx="242" cy="212" r="20" fill="#22c55e" opacity="0.12"/>
+    <circle cx="242" cy="212" r="20" stroke="#22c55e" stroke-width="1.5"/>
+    <circle cx="242" cy="212" r="7" fill="#22c55e" opacity="0.45"/>
+    <!-- d-pad -->
+    <rect x="143" y="167" width="7" height="20" rx="3" fill="#ff5c35" opacity="0.55"/>
+    <rect x="136" y="174" width="20" height="7" rx="3" fill="#ff5c35" opacity="0.55"/>
+    <!-- face buttons -->
+    <circle cx="228" cy="174" r="5.5" fill="#f59e0b" opacity="0.75"/>
+    <circle cx="242" cy="166" r="5.5" fill="#ff5c35" opacity="0.75"/>
+    <circle cx="256" cy="174" r="5.5" fill="#22c55e" opacity="0.75"/>
+    <circle cx="242" cy="182" r="5.5" fill="#3b82f6" opacity="0.75"/>
+    <!-- floating labels -->
+    <rect x="55" y="58" width="52" height="26" rx="8" fill="#f59e0b" opacity="0.1" stroke="#f59e0b" stroke-width="1"/>
+    <text x="81" y="76" font-family="Syne,sans-serif" font-size="9" fill="#b45309" text-anchor="middle" font-weight="700">Unity 3D</text>
+    <rect x="297" y="75" width="42" height="26" rx="8" fill="#a855f7" opacity="0.1" stroke="#a855f7" stroke-width="1"/>
+    <text x="318" y="93" font-family="Syne,sans-serif" font-size="10" fill="#7e22ce" text-anchor="middle" font-weight="700">C#</text>
+    <rect x="48" y="295" width="62" height="26" rx="8" fill="#3b82f6" opacity="0.1" stroke="#3b82f6" stroke-width="1"/>
+    <text x="79" y="313" font-family="Syne,sans-serif" font-size="9" fill="#1d4ed8" text-anchor="middle" font-weight="700">WebGL</text>
+    <rect x="296" y="298" width="60" height="26" rx="8" fill="#22c55e" opacity="0.1" stroke="#22c55e" stroke-width="1"/>
+    <text x="326" y="316" font-family="Syne,sans-serif" font-size="9" fill="#15803d" text-anchor="middle" font-weight="700">Mobile</text>
+  </svg>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="fi">
+      <div class="section-label">About me</div>
+      <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;line-height:1.15;letter-spacing:-0.025em;margin-bottom:1.25rem;">Building games people<br>actually want to play.</h2>
+      <p>Senior Unity Game Developer with 2+ years of experience building 3D mobile games across Open World, Simulation, FPS, and Hyper-casual genres.</p>
+      <p>Specialized in gameplay systems, performance optimization, monetization integration, and Android-native features — with strong expertise in Unity, C#, Cinemachine, NavMesh, and scalable architecture design.</p>
+      <ul class="contact-list">
+        <li><span class="ci" style="background:#fff0ed;">📧</span> priyeshrupavatia960@gmail.com</li>
+        <li><span class="ci" style="background:#eff6ff;">📱</span> +91 9638504018</li>
+        <li><span class="ci" style="background:#f0fdf4;">📍</span> Surat, India</li>
+      </ul>
+    </div>
+    <div class="about-stats fi">
+      <div class="stat-card"><div class="stat-num" style="color:var(--c1);">2+</div><div class="stat-label">Years experience</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--c2);">4</div><div class="stat-label">WebGL games live</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--c3);">3D</div><div class="stat-label">Mobile specialist</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--c4);">60fps</div><div class="stat-label">Target always</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">What I work with</div>
+  <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2rem);font-weight:800;letter-spacing:-0.025em;">Skills & tools</h2>
+  <div class="skills-grid">
+    <div class="skill-card fi">
+      <div class="skill-icon" style="background:#fff0ed;">🎮</div>
+      <h3>Game Development</h3>
+      <div class="tags"><span class="tag">Unity 3D</span><span class="tag">URP</span><span class="tag">Lighting & Lightmaps</span><span class="tag">Cinemachine</span><span class="tag">Animator</span></div>
+    </div>
+    <div class="skill-card fi">
+      <div class="skill-icon" style="background:#eff6ff;">💻</div>
+      <h3>Programming</h3>
+      <div class="tags"><span class="tag">C#</span><span class="tag">Data Structures</span><span class="tag">Physics Systems</span><span class="tag">Raycasting</span></div>
+    </div>
+    <div class="skill-card fi">
+      <div class="skill-icon" style="background:#f0fdf4;">⚙️</div>
+      <h3>Systems Design</h3>
+      <div class="tags"><span class="tag">Inventory System</span><span class="tag">Waypoint System</span><span class="tag">AI NavMesh</span><span class="tag">JSON & DB</span></div>
+    </div>
+    <div class="skill-card fi">
+      <div class="skill-icon" style="background:#fefce8;">📱</div>
+      <h3>Mobile & Optimization</h3>
+      <div class="tags"><span class="tag">Ads Integration</span><span class="tag">Performance Optimization</span><span class="tag">Android Native (Java)</span><span class="tag">Build Debugging</span></div>
+    </div>
+    <div class="skill-card fi">
+      <div class="skill-icon" style="background:#faf5ff;">🔧</div>
+      <h3>Tools</h3>
+      <div class="tags"><span class="tag">DOTween</span><span class="tag">Firebase</span><span class="tag">Android Studio</span><span class="tag">Agile</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Career</div>
+  <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2rem);font-weight:800;letter-spacing:-0.025em;">Work experience</h2>
+  <div class="exp-list">
+    <div class="exp-item fi">
+      <div class="exp-date">Mar 2023<br>– Apr 2024</div>
+      <div>
+        <div class="exp-role">Senior Unity Game Developer</div>
+        <div class="exp-co">Full-time</div>
+        <ul class="exp-bullets">
+          <li>Designed scalable gameplay systems — Inventory, Waypoint, Health, Ammo</li>
+          <li>Built runtime data sync using JSON & database architecture</li>
+          <li>Integrated rewarded & interstitial ads with optimized placement strategy</li>
+          <li>Implemented Android native features — Vibration, Toast, Studio builds</li>
+          <li>Optimized physics and gameplay systems to maintain stable FPS</li>
+          <li>Developed smooth UI animations using DOTween</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item fi">
+      <div class="exp-date">Nov 2022<br>– Mar 2023</div>
+      <div>
+        <div class="exp-role">Unity Game Developer</div>
+        <div class="exp-co">Full-time</div>
+        <ul class="exp-bullets">
+          <li>Developed time and continue systems in Crowd-style game</li>
+          <li>Built dynamic Day-Night lighting system for Truck Simulator</li>
+          <li>Implemented Story Mode using Cinemachine in Train Simulator</li>
+          <li>Worked on NavMesh AI and FPS animation systems</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item fi">
+      <div class="exp-date">Oct 2022<br>– Nov 2022</div>
+      <div>
+        <div class="exp-role">Unity Intern Developer</div>
+        <div class="exp-co">Secure Infotech</div>
+        <ul class="exp-bullets">
+          <li>Developed multiple 2D & 3D game prototypes</li>
+          <li>Improved environment visuals and optimized performance</li>
+          <li>Worked with Animator Controller & State Machines</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WEBGL GAMES -->
+<section id="games">
+  <div class="section-label">Playable in browser</div>
+  <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2rem);font-weight:800;letter-spacing:-0.025em;margin-bottom:0.4rem;">WebGL games</h2>
+  <p style="color:var(--ink3);font-size:0.9rem;margin-bottom:0;">Click any card to play directly in your browser — no install needed.</p>
+  <div class="games-grid">
+    <a href="https://priyeshpvr-tech.github.io/Food-truck/" target="_blank" rel="noopener" class="game-card fi">
+      <div class="game-thumb" style="background:linear-gradient(135deg,#fff0ed,#ffd8cc);">
+        <span style="font-size:3.2rem;">🚚</span>
+        <div class="play-hint">Play now →</div>
+      </div>
+      <div class="game-info">
+        <h3>Food Truck</h3>
+        <p>Drive and manage your food truck — serve customers, navigate city streets, build your mobile food empire.</p>
+        <span class="game-badge" style="background:#fff0ed;color:#c2410c;">🎮 WebGL</span>
+      </div>
+    </a>
+    <a href="https://priyeshpvr-tech.github.io/Block-Blast/" target="_blank" rel="noopener" class="game-card fi">
+      <div class="game-thumb" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);">
+        <span style="font-size:3.2rem;">🟦</span>
+        <div class="play-hint">Play now →</div>
+      </div>
+      <div class="game-info">
+        <h3>Block Blast</h3>
+        <p>Drop and fit blocks to clear the board, beat your high score, and keep your brain sharp.</p>
+        <span class="game-badge" style="background:#eff6ff;color:#1d4ed8;">🎮 WebGL</span>
+      </div>
+    </a>
+    <a href="https://priyeshpvr-tech.github.io/Zipper-Puzzle-Game/" target="_blank" rel="noopener" class="game-card fi">
+      <div class="game-thumb" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);">
+        <span style="font-size:3.2rem;">🧩</span>
+        <div class="play-hint">Play now →</div>
+      </div>
+      <div class="game-info">
+        <h3>Zip Puzzle</h3>
+        <p>Untangle the zippers — a clever logic puzzle challenging your spatial thinking with satisfying chain mechanics.</p>
+        <span class="game-badge" style="background:#f0fdf4;color:#15803d;">🎮 WebGL</span>
+      </div>
+    </a>
+   </div>
+</section>
+
+<!-- KEY PROJECTS -->
+<section id="projects">
+  <div class="section-label">Shipped work</div>
+  <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2rem);font-weight:800;letter-spacing:-0.025em;">Key project highlights</h2>
+  <div class="proj-grid">
+    <div class="proj-card fi"><div class="proj-bar" style="background:var(--c1);"></div><h3>Open World Game</h3><p>Waypoint & Inventory system — scalable architecture for open-world traversal and item management.</p></div>
+    <div class="proj-card fi"><div class="proj-bar" style="background:var(--c4);"></div><h3>Truck Simulator</h3><p>Dynamic Day-Night + Lightmapping — full lighting pipeline with baked and real-time light blending.</p></div>
+    <div class="proj-card fi"><div class="proj-bar" style="background:var(--c2);"></div><h3>Train Simulator</h3><p>Story Mode & Cinematics — narrative-driven gameplay with Cinemachine cutscene sequences.</p></div>
+    <div class="proj-card fi"><div class="proj-bar" style="background:var(--c5);"></div><h3>Sniper Hunter 3D</h3><p>NavMesh AI & FPS animations — intelligent enemy pathing with first-person weapon animation systems.</p></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-name">Priyesh Rupavatia</div>
+    <div class="footer-copy">Game Developer · Surat, India · 2024</div>
+  </div>
+  <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+    <a href="mailto:priyeshrupavatia960@gmail.com" class="btn btn-outline" style="padding:9px 18px;font-size:0.82rem;">Email me</a>
+    <a href="tel:+919638504018" class="btn btn-outline" style="padding:9px 18px;font-size:0.82rem;">+91 96385 04018</a>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
